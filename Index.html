@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hi-Tech Hacker Website</title>
+<style>
+  body {
+    margin: 0;
+    font-family: monospace;
+    background-color: #000;
+    color: #0f0;
+    overflow-x: hidden;
+  }
+
+  header {
+    padding: 20px;
+    text-align: center;
+    font-size: 2rem;
+    background: #111;
+    border-bottom: 2px solid #0f0;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 0 0 10px #0f0;
+  }
+
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: #080808;
+    padding: 10px;
+    border-bottom: 1px solid #0f0;
+  }
+
+  nav a {
+    color: #0f0;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    padding: 5px 10px;
+    border: 1px solid #0f0;
+    border-radius: 5px;
+  }
+
+  nav a:hover {
+    color: #000;
+    background: #0f0;
+    text-shadow: 0 0 10px #0f0;
+    box-shadow: 0 0 20px #0f0;
+  }
+
+  section {
+    padding: 50px 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+
+  h1, h2 {
+    color: #0f0;
+    text-shadow: 0 0 15px #0f0;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    background: #111;
+    border-top: 2px solid #0f0;
+  }
+
+  /* Typing animation */
+  .typing {
+    font-size: 1.5rem;
+    border-right: 2px solid #0f0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    animation: typing 4s steps(40, end) forwards, blink 0.8s step-end infinite;
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  .matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    color: #0f0;
+    font-size: 12px;
+    opacity: 0.2;
+  }
+</style>
+</head>
+<body>
+<canvas class="matrix"></canvas>
+
+<header>HI-TECH HACKER</header>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#blog">Blog</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section id="home">
+  <h1 class="typing">Welcome to My Hacker Space...</h1>
+  <p>This is a tech and hacking themed website.</p>
+</section>
+
+<section id="about">
+  <h2>About</h2>
+  <p>I am passionate about coding, cyber security, and hacking.</p>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <p>Coming soon...</p>
+</section>
+
+<section id="blog">
+  <h2>Blog</h2>
+  <p>Articles about programming, technology, and hacking.</p>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Email: yourname@example.com</p>
+</section>
+
+<footer>
+  &copy; 2025 Hi-Tech Hacker. All rights reserved.
+</footer>
+
+<script>
+  // Matrix background effect
+  const canvas = document.querySelector('.matrix');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const letters = '01';
+  const fontSize = 14;
+  const columns = Math.floor(canvas.width / fontSize);
+  const drops = Array(columns).fill(1);
+
+  function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#0f0';
+    ctx.font = fontSize + 'px monospace';
+
+    drops.forEach((y, index) => {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      const x = index * fontSize;
+      ctx.fillText(text, x, y * fontSize);
+
+      if (y * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[index] = 0;
+      }
+      drops[index]++;
+    });
+  }
+
+  setInterval(draw, 33);
+</script>
+</body>
+</html>
