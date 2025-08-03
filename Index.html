@@ -10,6 +10,70 @@
     font-family: monospace;
     background-color: #000;
     color: #0f0;
+    overflow: hidden;
+  }
+
+  .matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    color: #0f0;
+    font-size: 12px;
+    opacity: 0.2;
+  }
+
+  /* Login screen */
+  #login-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  #login-screen h2 {
+    text-shadow: 0 0 15px #0f0;
+    margin-bottom: 20px;
+  }
+  #login-screen input {
+    background: #000;
+    border: 1px solid #0f0;
+    color: #0f0;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  #login-screen button {
+    background: #0f0;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #0f0;
+    transition: 0.3s;
+  }
+  #login-screen button:hover {
+    box-shadow: 0 0 20px #0f0;
+  }
+  #login-error {
+    color: red;
+    margin-top: 10px;
+  }
+
+  /* Site content (hidden until login) */
+  #site-content {
+    display: none;
     overflow-x: hidden;
   }
 
@@ -86,64 +150,79 @@
   @keyframes blink {
     50% { border-color: transparent; }
   }
-
-  .matrix {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    color: #0f0;
-    font-size: 12px;
-    opacity: 0.2;
-  }
 </style>
 </head>
 <body>
 <canvas class="matrix"></canvas>
 
-<header>HI-TECH HACKER</header>
+<div id="login-screen">
+  <h2>LOGIN TO ENTER</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <div id="login-error"></div>
+</div>
 
-<nav>
-  <a href="#home">Home</a>
-  <a href="#about">About</a>
-  <a href="#projects">Projects</a>
-  <a href="#blog">Blog</a>
-  <a href="#contact">Contact</a>
-</nav>
+<div id="site-content">
+  <header>HI-TECH HACKER</header>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#blog">Blog</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
-<section id="home">
-  <h1 class="typing">Welcome to My Hacker Space...</h1>
-  <p>This is a tech and hacking themed website.</p>
-</section>
+  <section id="home">
+    <h1 class="typing">Welcome to My Hacker Space...</h1>
+    <p>This is a tech and hacking themed website.</p>
+  </section>
 
-<section id="about">
-  <h2>About</h2>
-  <p>I am passionate about coding, cyber security, and hacking.</p>
-</section>
+  <section id="about">
+    <h2>About</h2>
+    <p>I am passionate about coding, cyber security, and hacking.</p>
+  </section>
 
-<section id="projects">
-  <h2>Projects</h2>
-  <p>Coming soon...</p>
-</section>
+  <section id="projects">
+    <h2>Projects</h2>
+    <p>Coming soon...</p>
+  </section>
 
-<section id="blog">
-  <h2>Blog</h2>
-  <p>Articles about programming, technology, and hacking.</p>
-</section>
+  <section id="blog">
+    <h2>Blog</h2>
+    <p>Articles about programming, technology, and hacking.</p>
+  </section>
 
-<section id="contact">
-  <h2>Contact</h2>
-  <p>Email: yourname@example.com</p>
-</section>
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: yourname@example.com</p>
+  </section>
 
-<footer>
-  &copy; 2025 Hi-Tech Hacker. All rights reserved.
-</footer>
+  <footer>
+    &copy; 2025 Hi-Tech Hacker. All rights reserved.
+  </footer>
+</div>
 
 <script>
-  // Matrix background effect
+  // LOGIN SYSTEM
+  function login() {
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+    const errorDiv = document.getElementById('login-error');
+
+    // Change these to your own username/password
+    const correctUser = "admin";
+    const correctPass = "1234";
+
+    if (user === correctUser && pass === correctPass) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('site-content').style.display = 'block';
+    } else {
+      errorDiv.textContent = "Incorrect username or password!";
+    }
+  }
+
+  // MATRIX ANIMATION
   const canvas = document.querySelector('.matrix');
   const ctx = canvas.getContext('2d');
 
@@ -156,8 +235,8 @@
 
   const letters = '01';
   const fontSize = 14;
-  const columns = Math.floor(canvas.width / fontSize);
-  const drops = Array(columns).fill(1);
+  let columns = Math.floor(canvas.width / fontSize);
+  let drops = Array(columns).fill(1);
 
   function draw() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
